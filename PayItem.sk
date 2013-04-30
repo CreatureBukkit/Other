@@ -1,0 +1,54 @@
+# Script by Dzikoysk
+# Name: PayItem
+# Version: 1.0
+
+
+
+
+command /payitemcmd1:
+	trigger:
+		if player has 64 diamonds:
+			set {PayItem.%player%.diamond} to tool of player
+			send "Operacja 1"
+		wait 1 tick
+		if player has 64 emeralds:
+			set {PayItem.%player%.emerald} to tool of player
+			send "Operacja 2"
+		wait 1 tick
+		if player has 64 tnts:
+			set {PayItem.%player%.tnt} to tool of player
+			send "Operacja 3"
+
+command /payitemcmd2:
+	trigger:		
+		if {PayItem.%player%.diamond} is 64 diamonds:
+			send "Operacja 4"
+			if {PayItem.%player%.emerald} is 64 emeralds:
+				send "Operacja 5"
+				if {PayItem.%player%.tnt} is tnts:
+					send "Udalo sie"
+					set {PayItem.%player%.on} to false
+				else:
+					send "Brakuje tnt!"
+					wait 1 tick
+					stop trigger
+			else:
+				send "Brakuje emeraldow!"
+				wait 1 tick
+				stop trigger
+		else:
+			send "Brakuje diamentow!"
+			wait 1 tick
+			stop trigger
+					
+command /clan stworz <text> <text>:
+	trigger:
+		make player execute command "/payitemcmd1"
+		wait 10 tick
+		make player execute command "/payitemcmd2"
+		send "test"
+					
+
+		
+			
+		
