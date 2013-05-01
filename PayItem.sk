@@ -46,26 +46,27 @@ command /payitemcmd1:
 command /clan stworz <text> <text>:
 	usage: /clan stworz <tag> <nazwa_klanu>
 	trigger:
-		make player execute command "/payitemcmd1"
-		wait 10 tick
-		if {PayItem.%player%.on} is true:
-			remove {@item1} from player
-			remove {@item2} from player
-			remove {@item3} from player
-			remove {@item4} from player
-			remove {@item5} from player
-			remove {@item6} from player
+		if player has permissions "payitem.guild.create":
+			make player execute command "/payitemcmd1"
 			wait 10 tick
-			make player execute command "clan create %arg 1% %arg 2%"
-			send ""
-			send ""
-			send "&a--------------------------------"
-			send ""
-			send ""
-			send ""
-			send {@msg2}
-			send ""
-			send ""
-			send ""
-			send "&a--------------------------------"
+			if {PayItem.%player%.on} is true:
+				remove {@item1} from player
+				remove {@item2} from player
+				remove {@item3} from player
+				remove {@item4} from player
+				remove {@item5} from player
+				remove {@item6} from player
+				wait 10 tick
+				make player execute command "clan create %arg 1% %arg 2%"
+				send ""
+				send ""
+				send "&a--------------------------------"
+				send ""
+				send ""
+				send ""
+				send {@msg2}
+				send ""
+				send ""
+				send ""
+				send "&a--------------------------------"
 					
