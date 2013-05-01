@@ -2,53 +2,70 @@
 # Name: PayItem
 # Version: 1.0
 
+options:
+	# Wiadomosc, gdy zabraknie potrzebnych przedmiotow:
+	msg1: "&cBrakuje odpowiednich materialow!"
+	
+	# Wiadomosc po wykonaniu komendy, ktora zostala oplacona przedmiotami:
+	msg2: "        &l&bStworzono gildie &a%argument 2%&b!"
+	
+# Opcje zawansowane, wymagana zmiana kodu, przy ich zmianie
 
+	# Wymagane przedmoty 
+	# W ostatnim przedmiocie po przecinku napisz "and":
+	
+	items: 64 diamond, 64 tnt, 32 emerald, 16 golden carrot, 16 eye of ender, and 16 golden apple
+	
+	# Wypisane wszystkie przedmioty i ilosc (domyslnie 6)
+	
+	item1: 64 diamond
+	item2: 64 tnt
+	item3: 32 emerald
+	item4: 16 golden carrot
+	item5: 16 eye of ender
+	item6: 16 golden apple
+	
 
+#------#
+# Code #
+#------#
+	
+variables:
+	{PayItem.%player%.on} = false
 
 command /payitemcmd1:
 	trigger:
-		if player has 64 diamonds:
-			set {PayItem.%player%.diamond} to tool of player
-			send "Operacja 1"
-		wait 1 tick
-		if player has 64 emeralds:
-			set {PayItem.%player%.emerald} to tool of player
-			send "Operacja 2"
-		wait 1 tick
-		if player has 64 tnts:
-			set {PayItem.%player%.tnt} to tool of player
-			send "Operacja 3"
-
-command /payitemcmd2:
-	trigger:		
-		if {PayItem.%player%.diamond} is 64 diamonds:
-			send "Operacja 4"
-			if {PayItem.%player%.emerald} is 64 emeralds:
-				send "Operacja 5"
-				if {PayItem.%player%.tnt} is tnts:
-					send "Udalo sie"
-					set {PayItem.%player%.on} to false
-				else:
-					send "Brakuje tnt!"
-					wait 1 tick
-					stop trigger
-			else:
-				send "Brakuje emeraldow!"
-				wait 1 tick
-				stop trigger
+		if player has {@items}:
+			set {PayItem.%player%.items} to tool of player
+			set {PayItem.%player%.on} to true
 		else:
-			send "Brakuje diamentow!"
-			wait 1 tick
-			stop trigger
-					
+			clear {PayItem.%player%.items}
+			set {PayItem.%player%.on} to false
+			send {@msg1}
+
 command /clan stworz <text> <text>:
+	usage: /clan stworz <tag> <nazwa_klanu>
 	trigger:
 		make player execute command "/payitemcmd1"
 		wait 10 tick
-		make player execute command "/payitemcmd2"
-		send "test"
+		if {PayItem.%player%.on} is true:
+			remove {@item1} from player
+			remove {@item2} from player
+			remove {@item3} from player
+			remove {@item4} from player
+			remove {@item5} from player
+			remove {@item6} from player
+			wait 10 tick
+			make player execute command "clan create %arg 1% %arg 2%"
+			send ""
+			send ""
+			send "&a--------------------------------"
+			send ""
+			send ""
+			send ""
+			send {@msg2}
+			send ""
+			send ""
+			send ""
+			send "&a--------------------------------"
 					
-
-		
-			
-		
