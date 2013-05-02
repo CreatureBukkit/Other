@@ -17,13 +17,15 @@ command /pvp <text>:
 			send "Odrzuc /pvp no"
 			set {pvparena.start.pvpcmd.v} to argument
 			set {pvparena.start.pvpcmd.a} to player
+			stop
 		if argument 1 is "no":
 			send "Odrzucono wyzwanie" to {pvparena.start.pvpcmd.a}
 			send "Odrzucono wyzwanie" to {pvparena.start.pvpcmd.v}
+			stop
 		if argument 1 is "yes":
 			send "Przyjeto wyzwanie" to {pvparena.start.pvpcmd.a}
 			send "Przyjeto wyzwanie" to {pvparena.start.pvpcmd.v}
 			set {pvparena.fight.on} to true
 			teleport {pvparena.start.pvpcmd.a} to {pvparena.spawn2}
 			teleport {pvparena.start.pvpcmd.v} to {pvparena.spawn1}
-			
+			stop
