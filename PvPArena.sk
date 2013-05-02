@@ -1,0 +1,29 @@
+# Script by Dzikoysk
+# Name: PvP Arena
+# Version: 1.0 Beta Test
+
+command /pvpa <text>:
+  trigger:
+		if argument 1 is "setspawn1":
+			set {pvparena.spawn1} to location of player
+		if argument 1 is "setspawn2":
+			set {pvparena.spawn2} to location of player
+			
+command /pvp <text>:
+	trigger:
+		if argument 1 is not empty:
+			send "%player% wyzywa Cie na walke PvP!"
+			send "Akceptuj /pvp yes"
+			send "Odrzuc /pvp no"
+			set {pvparena.start.pvpcmd.v} to argument
+			set {pvparena.start.pvpcmd.a} to player
+		if argument 1 is "no":
+			send "Odrzucono wyzwanie" to {pvparena.start.pvpcmd.a}
+			send "Odrzucono wyzwanie" to {pvparena.start.pvpcmd.v}
+		if argument 1 is "yes":
+			send "Przyjeto wyzwanie" to {pvparena.start.pvpcmd.a}
+			send "Przyjeto wyzwanie" to {pvparena.start.pvpcmd.v}
+			set {pvparena.fight.on} to true
+			teleport {pvparena.start.pvpcmd.a} to {pvparena.spawn2}
+			teleport {pvparena.start.pvpcmd.v} to {pvparena.spawn1}
+			
