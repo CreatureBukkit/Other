@@ -1,6 +1,6 @@
 # Script by Dzikoysk
 # Name: PktRank
-# Version: 1.0
+# Version: 1.2
 
 #--------#
 # Config #
@@ -923,7 +923,7 @@ on death:
 
 on death:
 	if victim is skeleton:
-		if attacker is player:
+		if attacker is a player:
 			add {@pkt3} to {pktrank.%attacker%.pkt}
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
@@ -1291,7 +1291,7 @@ on death:
 
 on death:
 	if victim is spider:
-		if attacker is player:
+		if attacker is a player:
 			add {@pkt4} to {pktrank.%attacker%.pkt}
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
@@ -2026,7 +2026,7 @@ on death:
 
 on death:
 	if victim is slime:
-		if attacker is player:
+		if attacker is a player:
 			add {@pkt6} to {pktrank.%attacker%.pkt}
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
@@ -2393,7 +2393,7 @@ on death:
 
 on death:
 	victim is cave spider:
-		if attacker is player:
+		if attacker is a player:
 			add {@pkt7} to {pktrank.%attacker%.pkt}
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
@@ -2760,7 +2760,7 @@ on death:
 
 on death:
 	if victim is magma cube:
-		if attacker is player:
+		if attacker is a player:
 			add {@pkt8} to {pktrank.%attacker%.pkt}
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
@@ -3127,7 +3127,7 @@ on death:
 
 on death:
 	if victim is blaze:
-		if attacker is player:
+		if attacker is a player:
 			add {@pkt9} to {pktrank.%attacker%.pkt}
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
@@ -3494,7 +3494,7 @@ on death:
 
 on death:
 	if victim is wither skeleton:
-		if attacker is player:
+		if attacker is a player:
 			add {@pkt10} to {pktrank.%attacker%.pkt}
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
@@ -3861,7 +3861,7 @@ on death:
 
 on death:
 	if victim is ghast:
-		if attacker is player:
+		if attacker is a player:
 			add {@pkt11} to {pktrank.%attacker%.pkt}
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
@@ -4228,7 +4228,7 @@ on death:
 
 on death:
 	if victim is witch:
-		if attacker is player:
+		if attacker is a player:
 			add {@pkt12} to {pktrank.%attacker%.pkt}
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
@@ -4595,7 +4595,7 @@ on death:
 
 on death:
 	if victim is enderman:
-		if attacker is player:
+		if attacker is a player:
 			add {@pkt13} to {pktrank.%attacker%.pkt}
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
@@ -4962,7 +4962,7 @@ on death:
 
 on death:
 	if victim is iron golem:
-		if attacker is player:
+		if attacker is a player:
 			add {@pkt14} to {pktrank.%attacker%.pkt}
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
@@ -5329,7 +5329,7 @@ on death:
 
 on death:
 	if victim is zombie pigman:
-		if attacker is player:
+		if attacker is a player:
 			add {@pkt15} to {pktrank.%attacker%.pkt}
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
@@ -5697,7 +5697,7 @@ on death:
 #Boss
 on death:
 	if victim is wither:
-		if attacker is player:
+		if attacker is a player:
 			add {@pkt16} to {pktrank.%attacker%.pkt}
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
@@ -6065,7 +6065,7 @@ on death:
 
 on death:
 	if victim is ender dragon:
-		if attacker is player:
+		if attacker is a player:
 			add {@pkt17} to {pktrank.%attacker%.pkt}
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
@@ -6434,5 +6434,7 @@ on death:
 
 on first join:
 	set {exprank.%player%.rank} to "{@rank1}"
+	
+	
 	
 	
