@@ -1,6 +1,7 @@
 # Script by Dzikoysk
 # Name: PvP Arena
-# Version: 1.0 Beta Test
+# Version: 1.0 Beta
+
 
 options:
 	tag: &6[&cPvP&6]
@@ -20,12 +21,14 @@ command /pvpm <text>:
 			
 command /pvp <player>:
 	trigger:
-		send "{@tag} %player% &6wyzywa Cie na walke PvP!" to argument
+		send "{@tag} %player% &6wyzywa Cie na walke PvP, masz 20 sekund aby zaakceptowac!" to argument
 		send "&6Akceptuj &a/pvpa yes" to argument
 		send "&6Odrzuc &c/pvpa no" to argument
 		set {pvparena.start.pvpcmd.v} to argument
 		set {pvparena.start.pvpcmd.a} to player
 		set {pvparena.now} to true
+		wait 20 seconds
+		set {pvparena.now} to false
 		
 						
 command /pvpa <text>:
@@ -41,5 +44,7 @@ command /pvpa <text>:
 				set {pvparena.fight.on} to true
 				teleport {pvparena.start.pvpcmd.a} to {pvparena.spawn2}
 				teleport {pvparena.start.pvpcmd.v} to {pvparena.spawn1}
+			else:
+				send "{@tag} &aBrak wyzwan!"
 
 
