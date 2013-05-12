@@ -1,6 +1,6 @@
 # Script by Dzikoysk
 # Name: PktRank
-# Version: 1.2
+# Version: 1.0
 
 #--------#
 # Config #
@@ -91,7 +91,7 @@ options:
 	int38: 740
 	rank39: KsiazeKill III
 	int39: 780
-	rank40: Ostateczny VI
+	rank40: Ostateczny IV
 	int40: 900
 	rank41: ChuckNorris
 	int41: 1000
@@ -115,6 +115,8 @@ options:
 	#Boss
 	pkt16: 50	# Wither
 	pkt17: 50	# Ender Dragon
+	#Gracz
+	pkt18: 5	# Player
 	
 
 #----------------#
@@ -161,12 +163,21 @@ command /pktrank [<text>]:
 					stop trigger			
 
 
-command /reset:
+command /reset [<text>]:
 	trigger:
-		set {pktrank.%player%.rank} to "{@rank1}"
-		clear {pktrank.%player%.pkt}
-		clear {pktrank.%player%.intmob}
-		set {pktrank.%player%.intrank} to 1
+		if player has permissions "pktrank.resetme":
+			if argument 1 is empty:
+				set {pktrank.%player%.rank} to "{@rank1}"
+				clear {pktrank.%player%.pkt}
+				clear {pktrank.%player%.intmob}
+				set {pktrank.%player%.intrank} to 1
+		if player has permissions "pktrank.resetother":
+			if argument 1 is not empty:
+				set {pktrank.%argument%.rank} to "{@rank1}"
+				clear {pktrank.%argument%.pkt}
+				clear {pktrank.%argument%.intmob}
+				set {pktrank.%argument%.intrank} to 1
+			
 	
 	
 command /stats:
@@ -180,6 +191,20 @@ command /stats:
 		send "Zabite Moby: %{pktrank.%player%.intmob}%"
 		send "##########################################"
 		
+	
+command /top:
+	trigger:
+		send "#####################################"
+		send " L: [Nick] [Ilosc]"
+		send " 1: %{pktrank.top.name5}% %{pktrank.top.mob5}%"
+		send " 2: %{pktrank.top.name4}% %{pktrank.top.mob4}%"
+		send " 3: %{pktrank.top.name3}% %{pktrank.top.mob3}%"
+		send " 4: %{pktrank.top.name2}% %{pktrank.top.mob2}%"
+		send " 5: %{pktrank.top.name1}% %{pktrank.top.mob1}%"
+		send "#####################################"
+		
+			
+			
 		
 #--------#
 # Events #
@@ -192,6 +217,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt1}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -561,6 +615,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt2}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -928,6 +1011,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt3}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -1296,6 +1408,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt4}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -1663,6 +1804,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt5}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -2031,6 +2201,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt6}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -2398,6 +2597,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt7}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -2765,6 +2993,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt8}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -3132,6 +3389,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt9}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -3499,6 +3785,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt10}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -3866,6 +4181,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt11}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -4233,6 +4577,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt12}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -4600,6 +4973,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt13}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -4967,6 +5369,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt14}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -5334,6 +5765,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt15}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -5702,6 +6162,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt16}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -6070,6 +6559,35 @@ on death:
 			add 1 to {pktrank.%attacker%.intmob}
 			if {pktrank.msg.enable} is true:
 				send "&6+{@pkt17}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
 			if {pktrank.%attacker%.intrank} is 1:
 				if {pktrank.%attacker%.pkt} is greater than  20:
 					make console execute command "pex user %attacker% group add {@rank2}"
@@ -6436,5 +6954,403 @@ on first join:
 	set {exprank.%player%.rank} to "{@rank1}"
 	
 	
+	
+on death:
+	if victim is player:
+		if attacker is a player:
+			add {@pkt18} to {pktrank.%attacker%.pkt}
+			add 1 to {pktrank.%attacker%.intmob}
+			if {pktrank.msg.enable} is true:
+				send "&6+{@pkt18}" to attacker
+			if {pktrank.%attacker%.intmob1} is greater than {pktrank.top.mob1}:
+				if {pktrank.%attacker%.intmob2} is greater than {pktrank.top.mob2}:
+					if {pktrank.%attacker%.intmob3} is greater than {pktrank.top.mob3}:
+						if {pktrank.%attacker%.intmob4} is greater than {pktrank.top.mob4}:
+							if {pktrank.%attacker%.intmob5} is greater than {pktrank.top.mob5}:
+								set {pktrank.top.mob5} to {pktrank.%attacker%.intmob5}
+								set {pktrank.top.name5} to attacker
+								send "&6&lOsiagnieto &41 &6miejsce w rankingu!"
+								stop
+							else:
+								set {pktrank.top.mob4} to {pktrank.%attacker%.intmob4}
+								set {pktrank.top.name4} to attacker
+								send "&6&lOsiagnieto &42 &6miejsce w rankingu!"
+								stop
+						else:
+							set {pktrank.top.mob3} to {pktrank.%attacker%.intmob3}
+							set {pktrank.top.name3} to attacker
+							send "&6&lOsiagnieto &43 &6miejsce w rankingu!"
+							stop
+					else:
+						set {pktrank.top.mob2} to {pktrank.%attacker%.intmob2}
+						set {pktrank.top.name2} to attacker
+						send "&6&lOsiagnieto &44 &6miejsce w rankingu!"
+						stop
+				else:
+					set {pktrank.top.mob1} to {pktrank.%attacker%.intmob1}
+					set {pktrank.top.name1} to attacker
+					send "&6&lOsiagnieto &45 &6miejsce w rankingu!"
+					stop
+			if {pktrank.%attacker%.intrank} is 1:
+				if {pktrank.%attacker%.pkt} is greater than  20:
+					make console execute command "pex user %attacker% group add {@rank2}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 2
+					set {pktrank.%attacker%.rank} to "{@rank2}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 2:
+				if {pktrank.%attacker%.pkt} is greater than  40:
+					make console execute command "pex user %attacker% group add {@rank3}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 3
+					set {pktrank.%attacker%.rank} to "{@rank3}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 3:
+				send "test" to attacker
+				if {pktrank.%attacker%.pkt} is greater than  60:
+					send "test" to attacker
+					make console execute command "pex user %attacker% group add {@rank4}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 4
+					set {pktrank.%attacker%.rank} to "{@rank4}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 4:
+				if {pktrank.%attacker%.pkt} is greater than  80:
+					make console execute command "pex user %attacker% group add {@rank5}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 5
+					set {pktrank.%attacker%.rank} to "{@rank5}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 5:
+				if {pktrank.%attacker%.pkt} is greater than  100:
+					make console execute command "pex user %attacker% group add {@rank6}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 6
+					set {pktrank.%attacker%.rank} to "{@rank6}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 6:
+				if {pktrank.%attacker%.pkt} is greater than  120:
+					make console execute command "pex user %attacker% group add {@rank7}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 7
+					set {pktrank.%attacker%.rank} to "{@rank7}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 7:
+				if {pktrank.%attacker%.pkt} is greater than  140:
+					make console execute command "pex user %attacker% group add {@rank8}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 8
+					set {pktrank.%attacker%.rank} to "{@rank8}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 8:
+				if {pktrank.%attacker%.pkt} is greater than  160:
+					make console execute command "pex user %attacker% group add {@rank9}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 9
+					set {pktrank.%attacker%.rank} to "{@rank9}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 9:
+				if {pktrank.%attacker%.pkt} is greater than  180:
+					make console execute command "pex user %attacker% group add {@rank10}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 10
+					set {pktrank.%attacker%.rank} to "{@rank10}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 10:
+				if {pktrank.%attacker%.pkt} is greater than  200:
+					make console execute command "pex user %attacker% group add {@rank11}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 11
+					set {pktrank.%attacker%.rank} to "{@rank11}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 11:
+				if {pktrank.%attacker%.pkt} is greater than  220:
+					make console execute command "pex user %attacker% group add {@rank12}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 12
+					set {pktrank.%attacker%.rank} to "{@rank12}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 12:
+				if {pktrank.%attacker%.pkt} is greater than  240:
+					make console execute command "pex user %attacker% group add {@rank13}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 13
+					set {pktrank.%attacker%.rank} to "{@rank13}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 13:
+				if {pktrank.%attacker%.pkt} is greater than  260:
+					make console execute command "pex user %attacker% group add {@rank14}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 14
+					set {pktrank.%attacker%.rank} to "{@rank14}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 14:
+				if {pktrank.%attacker%.pkt} is greater than  280:
+					make console execute command "pex user %attacker% group add {@rank15}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 15
+					set {pktrank.%attacker%.rank} to "{@rank15}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 15:
+				if {pktrank.%attacker%.pkt} is greater than  300:
+					make console execute command "pex user %attacker% group add {@rank16}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 16
+					set {pktrank.%attacker%.rank} to "{@rank16}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 16:
+				if {pktrank.%attacker%.pkt} is greater than  320:
+					make console execute command "pex user %attacker% group add {@rank17}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 17
+					set {pktrank.%attacker%.rank} to "{@rank17}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 17:
+				if {pktrank.%attacker%.pkt} is greater than  340:
+					make console execute command "pex user %attacker% group add {@rank18}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 18
+					set {pktrank.%attacker%.rank} to "{@rank18}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 18:
+				if {pktrank.%attacker%.pkt} is greater than  360:
+					make console execute command "pex user %attacker% group add {@rank19}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 19
+					set {pktrank.%attacker%.rank} to "{@rank19}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 19:
+				if {pktrank.%attacker%.pkt} is greater than  380:
+					make console execute command "pex user %attacker% group add {@rank20}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 20
+					set {pktrank.%attacker%.rank} to "{@rank20}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 20:
+				if {pktrank.%attacker%.pkt} is greater than  400:
+					make console execute command "pex user %attacker% group add {@rank21}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 21
+					set {pktrank.%attacker%.rank} to "{@rank21}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 21:
+				if {pktrank.%attacker%.pkt} is greater than  420:
+					make console execute command "pex user %attacker% group add {@rank22}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 22
+					set {pktrank.%attacker%.rank} to "{@rank22}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 22:
+				if {pktrank.%attacker%.pkt} is greater than  440:
+					make console execute command "pex user %attacker% group add {@rank23}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 23
+					set {pktrank.%attacker%.rank} to "{@rank23}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 23:
+				if {pktrank.%attacker%.pkt} is greater than  460:
+					make console execute command "pex user %attacker% group add {@rank24}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 24
+					set {pktrank.%attacker%.rank} to "{@rank24}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 24:
+				if {pktrank.%attacker%.pkt} is greater than  480:
+					make console execute command "pex user %attacker% group add {@rank25}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 25
+					set {pktrank.%attacker%.rank} to "{@rank25}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 25:
+				if {pktrank.%attacker%.pkt} is greater than  500:
+					make console execute command "pex user %attacker% group add {@rank26}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 26
+					set {pktrank.%attacker%.rank} to "{@rank26}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 26:
+				if {pktrank.%attacker%.pkt} is greater than  520:
+					make console execute command "pex user %attacker% group add {@rank27}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 27
+					set {pktrank.%attacker%.rank} to "{@rank27}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 27:
+				if {pktrank.%attacker%.pkt} is greater than  540:
+					make console execute command "pex user %attacker% group add {@rank28}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 28
+					set {pktrank.%attacker%.rank} to "{@rank28}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 28:
+				if {pktrank.%attacker%.pkt} is greater than  560:
+					make console execute command "pex user %attacker% group add {@rank29}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 29
+					set {pktrank.%attacker%.rank} to "{@rank29}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 29:
+				if {pktrank.%attacker%.pkt} is greater than  580:
+					make console execute command "pex user %attacker% group add {@rank30}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 30
+					set {pktrank.%attacker%.rank} to "{@rank30}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 30:
+				if {pktrank.%attacker%.pkt} is greater than  600:
+					make console execute command "pex user %attacker% group add {@rank31}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 31
+					set {pktrank.%attacker%.rank} to "{@rank31}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 31:
+				if {pktrank.%attacker%.pkt} is greater than  620:
+					make console execute command "pex user %attacker% group add {@rank32}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 32
+					set {pktrank.%attacker%.rank} to "{@rank32}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 32:
+				if {pktrank.%attacker%.pkt} is greater than  640:
+					make console execute command "pex user %attacker% group add {@rank33}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 33
+					set {pktrank.%attacker%.rank} to "{@rank33}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 33:
+				if {pktrank.%attacker%.pkt} is greater than  660:
+					make console execute command "pex user %attacker% group add {@rank34}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 34
+					set {pktrank.%attacker%.rank} to "{@rank34}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 34:
+				if {pktrank.%attacker%.pkt} is greater than  680:
+					make console execute command "pex user %attacker% group add {@rank35}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 35
+					set {pktrank.%attacker%.rank} to "{@rank35}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 35:
+				if {pktrank.%attacker%.pkt} is greater than  700:
+					make console execute command "pex user %attacker% group add {@rank36}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 36
+					set {pktrank.%attacker%.rank} to "{@rank36}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 36:
+				if {pktrank.%attacker%.pkt} is greater than  720:
+					make console execute command "pex user %attacker% group add {@rank37}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 37
+					set {pktrank.%attacker%.rank} to "{@rank37}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 37:
+				if {pktrank.%attacker%.pkt} is greater than  740:
+					make console execute command "pex user %attacker% group add {@rank38}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 38
+					set {pktrank.%attacker%.rank} to "{@rank38}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {pktrank.%attacker%.intrank} is 38:
+				if {pktrank.%attacker%.pkt} is greater than  780:
+					make console execute command "pex user %attacker% group add {@rank39}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 39
+					set {pktrank.%attacker%.rank} to "{@rank39}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {exprank.%attacker%.rank} is 39:
+				if {pktrank.%attacker%.pkt} is greater than  900:
+					make console execute command "pex user %attacker% group add {@rank40}"
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 40
+					set {pktrank.%attacker%.rank} to "{@rank40}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
+			if {exprank.%attacker%.rank} is 40:
+				if {pktrank.%attacker%.pkt} is greater than  1000:
+					send "{@msgAwans}" to attacker
+					set {pktrank.%attacker%.intrank} to 41
+					set {pktrank.%attacker%.rank} to "{@rank41}"
+					wait 1 tick
+					clear {pktrank.%attacker%.pkt}
+					stop
 	
 	
