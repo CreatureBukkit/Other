@@ -2,7 +2,7 @@
 
 command /global:
 	trigger:
-		if player has permissions "chat.defaut" or "chat.admin":
+		if player has permissions "chat.defaut":
 			if player has 1 egg:
 				set {chaton.enable.%player%} to true
 				send "&6[Global]&7 Napisz teraz wiadomosc na chacie"
