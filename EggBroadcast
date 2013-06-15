@@ -1,0 +1,19 @@
+# EggBroadcast
+
+command /global:
+	trigger:
+		if player has permissions "chat.defaut" or "chat.admin":
+			if player has 1 egg:
+				set {chaton.enable.%player%} to true
+				send "&6[Global]&7 Napisz teraz wiadomosc na chacie"
+				remove 1 egg from player
+				stop
+			else:
+				send "&6[Global]&cNie masz jajka!"
+				stop
+
+on chat:
+	if {chaton.enable.%player%} is true:
+		cancel event
+		set {chaton.enable.%player%} to false
+		broadcast "&6[Global] &7%player%:&f %message%"
